@@ -1,48 +1,86 @@
 import 'package:flutter/material.dart';
 
-class Navigator extends StatelessWidget {
-  const Navigator({super.key, required this.title});
-  final Widget title;
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(color: Colors.white),
-      child: Row(children: [
-        const IconButton(onPressed: null, icon: Icon(Icons.menu)),
-        Expanded(child: title),
-        const IconButton(
-            onPressed: null, icon: Icon(Icons.notifications_off_rounded))
-      ]),
-    );
-  }
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Material is a conceptual piece
-    // of paper on which the UI appears.
-    return Material(
-      // Column is a vertical, linear layout.
-      child: Column(
-        children: [
-          Navigator(
-            title: Text('Manage',
-                style: TextStyle(
-                    color: Colors.blue[200],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20)),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text('Hello!'),
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Center(
+        child: _widgetOptions[_selectedIndex],
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            ListTile(
+              title: const Text('Home'),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(0);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
             ),
-          ),
-        ],
+            ListTile(
+              title: const Text('Business'),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(1);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('School'),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(2);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
