@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
           ),
           const Expanded(
             child: Center(
-              child: Text('Hello, world!'),
+              child: Text('Hello!'),
             ),
           ),
         ],
